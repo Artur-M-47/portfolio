@@ -22,12 +22,12 @@ energy_KPI_anomaly_detection_IForest/
 
 ## 📊 Sample Output
 
-The plot below illustrates **Success Rate** fabrication of data and anomally
+The plot below illustrates **Success Rate** fabrication of data and anomaly
 
 - **Blue lines** represent success rate values (%).  
 - **Red background** highlight anomalies placed.  
 
-![Success Rate fabrication of data and anomally](images/Succes_Rate_fabricated_data.png)
+![Success Rate fabrication of data and anomaly](images/Success_Rate_fabricated_data.png)
 
 The plot below illustrates anomaly detection in the **Success Rate** KPI using the Isolation Forest algorithm with a contamination level of `0.0065`.
 
@@ -44,7 +44,7 @@ The plot below illustrates **Round-Trip Time** fabrication of data and anomally
 - **Blue lines** represent Round-Trip Time  (ms) . 
 - **Red background** highlight anomalies placed.  
 
-![Success Rate fabrication of data and anomally](images/Succes_Rate_fabricated_data.png)
+![Round-Trip Time  fabrication of data and anomaly](images/Round-TripTime_fabricated_data.png)
 
 The plot below illustrates anomaly detection in the **Round-Trip Time** KPI using the Isolation Forest algorithm with a contamination level of `0.00044`.
 
@@ -55,19 +55,30 @@ The plot below illustrates anomaly detection in the **Round-Trip Time** KPI usin
 **Number of detected anomalies: 13**
 
 ![Round-Trip Time Anomaly Detection](images/Round-TripTime_anomaly_plot.png)
+
+## 🧪 Environment Setup
+
+To recreate the environment:
+
+```bash
+conda env create -f environment.yml
+conda activate energy-kpi-env
+```
+
+
+
 ## 🚀 How to Run
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/Artur-M-47/portfolio.git
-   
- 2. Navigate to the project folder:
+   ```
+2. Navigate to the project folder:  
+```bash
  cd energy_KPI_anomaly_IForest_project
- 
- 3. Open the notebooks in Jupyter
- 
- 4. Run data_fabrication_KPI_RTT_SR.ipynb to generate synthetic KPI data.
- 
- 5. Run anomaly_detection_IForest.ipynb to train and evaluate the Isolation Forest model.
+```
+3. Open the notebooks in Jupyter
+4. Run data_fabrication_KPI_RTT_SR.ipynb to generate synthetic KPI data.
+5. Run anomaly_detection_IForest.ipynb to train and evaluate the Isolation Forest model.
  
 
