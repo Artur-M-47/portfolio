@@ -15,15 +15,46 @@ This project demonstrates how to detect anomalies in energy-related KPIs using t
 ## 📁 Repository Structure
 
 energy_KPI_anomaly_detection_IForest/ 
-├── README.md 
-├── anomaly_detection_IForest.ipynb 
-├── data_fabrication_KPI_RTT_SR.ipynb 
+├── README.md  
+├── anomaly_detection_IForest.ipynb  
+├── data_fabrication_KPI_RTT_SR.ipynb  
 ├── RTT_SR_with_anomalies.csv
 
 ## 📊 Sample Output
 
-*(Insert plot or description here)*
+The plot below illustrates **Success Rate** fabrication of data and anomally
 
+- **Blue lines** represent success rate values (%).  
+- **Red background** highlight anomalies placed.  
+
+![Success Rate fabrication of data and anomally](images/Succes_Rate_fabricated_data.png)
+
+The plot below illustrates anomaly detection in the **Success Rate** KPI using the Isolation Forest algorithm with a contamination level of `0.0065`.
+
+- **Blue lines** represent success rate values (%).
+- **Red dots** highlight anomalies detected by the model.
+- A significant drop in mid-2024 is correctly flagged as anomalous behavior.
+
+**Number of detected anomalies: 685**
+
+![Success Rate Anomaly Detection](images/success_rate_anomaly_plot.png)
+
+The plot below illustrates **Round-Trip Time** fabrication of data and anomally
+
+- **Blue lines** represent Round-Trip Time  (ms) . 
+- **Red background** highlight anomalies placed.  
+
+![Success Rate fabrication of data and anomally](images/Succes_Rate_fabricated_data.png)
+
+The plot below illustrates anomaly detection in the **Round-Trip Time** KPI using the Isolation Forest algorithm with a contamination level of `0.00044`.
+
+- **Blue lines** represent Round-Trip Time  (ms) .
+- **Red dots** highlight anomalies detected by the model.
+- A significant drop in mid-2024 is correctly flagged as anomalous behavior.
+
+**Number of detected anomalies: 13**
+
+![Round-Trip Time Anomaly Detection](images/Round-TripTime_anomaly_plot.png)
 ## 🚀 How to Run
 
 1. Clone the repository:
@@ -39,8 +70,4 @@ energy_KPI_anomaly_detection_IForest/
  
  5. Run anomaly_detection_IForest.ipynb to train and evaluate the Isolation Forest model.
  
-## 📊 Sample Output
 
-Below is a sample plot showing detected anomalies in RTT and SR over time:
-
-![Anomaly Detection Plot](images/anomaly_plot.png)
