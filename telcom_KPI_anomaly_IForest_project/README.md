@@ -62,7 +62,7 @@ To recreate the environment:
 
 ```bash
 conda env create -f environment.yml
-conda activate telecom_env
+conda activate tf-gpu
 ```
 
 
