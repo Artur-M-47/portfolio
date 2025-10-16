@@ -1,10 +1,10 @@
-# Energy KPI Anomaly Detection using Isolation Forest
+# Telecom KPI Anomaly Detection using Isolation Forest
 
-This project demonstrates how to detect anomalies in energy-related KPIs using the Isolation Forest algorithm. It includes synthetic data generation, contamination tuning, and robust validation techniques.
+This project demonstrates how to detect anomalies in telecom-related KPIs using the Isolation Forest algorithm. It includes synthetic data generation, contamination tuning, and robust validation techniques.
 
 ## 🔍 Project Overview
 
-- **Domain**: Energy monitoring and KPI analysis
+- **Domain**: Telecom monitoring and KPI analysis
 - **Goal**: Identify anomalies in synthetic time series data using Isolation Forest
 - **Tech stack**: Python, scikit-learn, pandas, matplotlib
 - **Key features**:
@@ -14,7 +14,7 @@ This project demonstrates how to detect anomalies in energy-related KPIs using t
 
 ## 📁 Repository Structure
 
-energy_KPI_anomaly_detection_IForest/ 
+telcom_KPI_anomaly_detection_IForest/ 
 ├── README.md  
 ├── anomaly_detection_IForest.ipynb  
 ├── data_fabrication_KPI_RTT_SR.ipynb  
@@ -62,7 +62,7 @@ To recreate the environment:
 
 ```bash
 conda env create -f environment.yml
-conda activate energy-kpi-env
+conda activate telecom_env
 ```
 
 
@@ -75,7 +75,7 @@ conda activate energy-kpi-env
    ```
 2. Navigate to the project folder:  
 ```bash
- cd energy_KPI_anomaly_IForest_project
+ cd telecom_KPI_anomaly_IForest_project
 ```
 3. Open the notebooks in Jupyter
 4. Run data_fabrication_KPI_RTT_SR.ipynb to generate synthetic KPI data.
