@@ -26,7 +26,7 @@ To manage computational overhead and focus the model on the most relevant featur
 - **Numerical Normalization:** Numerical features were normalized using Scikit-learn's MinMaxScaler.
 - **One-Hot Encoding (OHE):** Due to the highly categorical nature of the data, OHE was extensively applied, expanding the feature space to 107 dimensions. Crucially, the OHE process ensured all splits (train/validation/test) were reindexed to match the final 107-column structure of the training set.
 
-##📖 Modeling Pipeline
+## 📖 Modeling Pipeline
 The project consist comparison across different model types:
 
 - Baseline: **Logistic Regression** (Applied to OHE and Scaled data).
@@ -37,20 +37,20 @@ The project consist comparison across different model types:
 
 ![df_model_comparison_table](images/model_comparison_table.png)
 
-📊 Model Comparison: Highest MCC Scores
+## 📊 Model Comparison: Highest MCC Scores
 The final performance comparison table illustrates the effectiveness of different modeling 
 approaches on the validation set. CatBoost models, which inherently handle categorical features 
 well, achieved the best scores.
 
 # 📁 2024-08-30_22-55-49_submission_0.98493/
-├── README.md
-├── Mushroom_Toxicity_Prediction.ipynb (Main EDA, Preprocessing, and Modeling script)
-├── final_submission.csv 
-├── DATA_reduced_to_size_under_100_MB/
-│	├── test.csv
-│   └── train.csv
-├── images/
-│   └── model_comparison_table.png
+├── README.md  
+├── Mushroom_Toxicity_Prediction.ipynb (Main EDA, Preprocessing, and Modeling script)  
+├── final_submission.csv  
+├── DATA_reduced_to_size_under_100_MB/  
+│	├── test.csv  
+│   └── train.csv  
+├── images/  
+│   └── model_comparison_table.png  
 
 
 Feature Importance
@@ -75,7 +75,7 @@ conda activate mushroom
  cd kaggle_competitions/Binary_Prediction_of_Poisonous_Mushrooms/2024-08-30_22-55-49_submission_0.98493
 ```
 3. Open the notebooks in Jupyter
-4. Run Mushroom_Toxicity_Prediction.ipynb to generate synthetic KPI data.
+4. Run Mushroom_Toxicity_Predictionmd.ipynb 
 
 
 
