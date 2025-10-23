@@ -1,60 +1,60 @@
-# Telecom KPI Anomaly Detection using Isolation Forest
+# 🍄 Mushroom Edibility Classification (Kaggle: PS S4E8)
+https://www.kaggle.com/competitions/playground-series-s4e
 
-This project demonstrates how to detect anomalies in telecom-related KPIs using the Isolation Forest algorithm. It includes synthetic data generation, contamination tuning, and robust validation techniques.
+This project focuses on building, tuning, and comparing several Machine Learning models,  
+including **Logistic Regression** baseline , a **Tuned CatBoost** classifier, and a **Deep Neural Network (DNN)**,  
+to accurately classify mushrooms as either **edible ('e')** or **poisonous ('p')** based on 22 categorical features.
 
-## 🔍 Project Overview
+## 📈 Kaggle Performance
+The final submission, based on the Tuned CatBoost model, achieved a highly competitive result on the Kaggle Public Leaderboard:
 
-- **Domain**: Telecom monitoring and KPI analysis
-- **Goal**: Identify anomalies in synthetic time series data using Isolation Forest
-- **Tech stack**: Python, scikit-learn, pandas, matplotlib
-- **Key features**:
-  - Synthetic data fabrication for KPIs like RTT and SR
-  - Isolation Forest model with contamination tuning
-  - Visual validation and anomaly tagging
+Accuracy Score						0.98481
+Ranking (Rank/Total Competitors)	555 / 2422
 
-## 📁 Repository Structure
+# 🔍 Project Overview
+## 🛠️ Data and Preprocessing
+The dataset primarily consists of 22 features (e.g., cap-shape, cap-diameter, cap-surface) and the target variable, edibility.
+### Data Cleaning and Reduction
+To manage computational overhead and focus the model on the most relevant features, the following steps were taken:
+- Dataset Trimming: Training and testing data volume was reduced to under 100 MB to facilitate faster processing and iterative development.
+- Feature Removal: Columns exhibiting over **90%** missing values were dropped from the analysis.
+- **Categorical Feature Cleaning:**
+	- Rare Categories: Infrequently occurring categories were grouped into a single bucket named 'rer_data_category'.
+	- Missing Values: Categorical NaN values were explicitly replaced with the category "missing".
+- **Feature Selection:** Categorical column selection was validated using the **Chi-Square Test** (no columns were deleted based on this test).
+- **Feature Engineering and Scaling**
+- **Numerical Normalization:** Numerical features were normalized using Scikit-learn's MinMaxScaler.
+- **One-Hot Encoding (OHE):** Due to the highly categorical nature of the data, OHE was extensively applied, expanding the feature space to 107 dimensions. Crucially, the OHE process ensured all splits (train/validation/test) were reindexed to match the final 107-column structure of the training set.
 
-telcom_KPI_anomaly_detection_IForest/ 
-├── README.md  
-├── anomaly_detection_IForest.ipynb  
-├── data_fabrication_KPI_RTT_SR.ipynb  
-├── RTT_SR_with_anomalies.csv
+##📖 Modeling Pipeline
+The project consist comparison across different model types:
 
-## 📊 Sample Output
+- Baseline: **Logistic Regression** (Applied to OHE and Scaled data).
 
-The plot below illustrates **Success Rate** fabrication of data and anomaly
+- Ensemble Tree: **CatBoost (Baseline & Tuned)**. This model was chosen for its native ability to handle categorical features and its state-of-the-art performance.
 
-- **Blue lines** represent success rate values (%).  
-- **Red background** highlight anomalies placed.  
+- Deep Learning: Deep Neural Network **(DNN)** / Keras (Applied to OHE and Scaled data).
 
-![Success Rate fabrication of data and anomaly](images/Success_Rate_fabricated_data.png)
+![df_model_comparison_table](images/model_comparison_table.png)
 
-The plot below illustrates anomaly detection in the **Success Rate** KPI using the Isolation Forest algorithm with a contamination level of `0.0065`.
+📊 Model Comparison: Highest MCC Scores
+The final performance comparison table illustrates the effectiveness of different modeling 
+approaches on the validation set. CatBoost models, which inherently handle categorical features 
+well, achieved the best scores.
 
-- **Blue lines** represent success rate values (%).
-- **Red dots** highlight anomalies detected by the model.
-- A significant drop in mid-2024 is correctly flagged as anomalous behavior.
+# 📁 2024-08-30_22-55-49_submission_0.98493/
+├── README.md
+├── Mushroom_Toxicity_Prediction.ipynb (Main EDA, Preprocessing, and Modeling script)
+├── final_submission.csv 
+├── DATA_reduced_to_size_under_100_MB/
+│	├── test.csv
+│   └── train.csv
+├── images/
+│   └── model_comparison_table.png
 
-**Number of detected anomalies: 685**
 
-![Success Rate Anomaly Detection](images/success_rate_anomaly_plot.png)
-
-The plot below illustrates **Round-Trip Time** fabrication of data and anomally
-
-- **Blue lines** represent Round-Trip Time  (ms) . 
-- **Red background** highlight anomalies placed.  
-
-![Round-Trip Time  fabrication of data and anomaly](images/Round-TripTime_fabricated_data.png)
-
-The plot below illustrates anomaly detection in the **Round-Trip Time** KPI using the Isolation Forest algorithm with a contamination level of `0.00044`.
-
-- **Blue lines** represent Round-Trip Time  (ms) .
-- **Red dots** highlight anomalies detected by the model.
-- A significant drop in mid-2024 is correctly flagged as anomalous behavior.
-
-**Number of detected anomalies: 13**
-
-![Round-Trip Time Anomaly Detection](images/Round-TripTime_anomaly_plot.png)
+Feature Importance
+The most significant features identified by the top-performing CatBoost model were related to the mushroom's Odor and Gill Size.
 
 ## 🧪 Environment Setup
 
@@ -62,11 +62,8 @@ To recreate the environment:
 
 ```bash
 conda env create -f environment.yml
-conda activate tf-gpu
+conda activate mushroom
 ```
-
-
-
 ## 🚀 How to Run
 
 1. Clone the repository:
@@ -75,10 +72,10 @@ conda activate tf-gpu
    ```
 2. Navigate to the project folder:  
 ```bash
- cd telecom_KPI_anomaly_IForest_project
+ cd kaggle_competitions/Binary_Prediction_of_Poisonous_Mushrooms/2024-08-30_22-55-49_submission_0.98493
 ```
 3. Open the notebooks in Jupyter
-4. Run data_fabrication_KPI_RTT_SR.ipynb to generate synthetic KPI data.
-5. Run anomaly_detection_IForest.ipynb to train and evaluate the Isolation Forest model.
- 
+4. Run Mushroom_Toxicity_Prediction.ipynb to generate synthetic KPI data.
+
+
 
