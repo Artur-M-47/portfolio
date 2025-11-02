@@ -179,7 +179,6 @@ dependencies:
       - protobuf==6.33.0
       - pycparser==2.23
       - pyparsing==3.2.5
-      - python-graphviz==0.21
       - python-json-logger==4.0.0
       - pywinpty==3.0.2
       - rich==14.2.0
