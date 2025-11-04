@@ -73,7 +73,7 @@ conda activate car_insurance_env
 1. Clone the repository:
 
 ```bash
-git clone [https://github.com/Artur-M-47/portfolio/tree/main/kaggle_competitions/Insurance_Marketing_Campaigns]
+git clone [https://github.com/Artur-M-47/portfolio/tree/main/kaggle_competitions/Car_Insurance_Reaction]
 ```
 2. Navigate to the project folder:
 
