@@ -1,6 +1,6 @@
 # 🧠 Portfolio Overview
 This portfolio showcases two applied machine learning projects focused on classification and anomaly detection, combining regulatory awareness with technical precision.
-
+---
 ## 1. 🍄 Mushroom Edibility Classification (Kaggle: PS S4E8)
 A competition-grade pipeline for classifying mushrooms as edible or poisonous using 22 categorical features. The project compares Logistic Regression, a Tuned CatBoost classifier, and a Deep Neural Network (DNN), achieving:
 
