@@ -53,8 +53,8 @@ well, achieved the best scores.
 │   └── model_comparison_table.png  
 
 
-Feature Importance
-The most significant features identified by the top-performing CatBoost model were related to the mushroom's Odor and Gill Size.
+## Feature Importance
+![Feature_Importance](images/Feature_Importance.png)
 
 ## 🧪 Environment Setup
 
