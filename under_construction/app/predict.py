@@ -1,6 +1,6 @@
 import pickle
 import numpy as np
-from schemas import LoanApplication
+from .schemas import LoanApplication 
 
 # Load the trained model
 with open("model.pkl", "rb") as f:
