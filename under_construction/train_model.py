@@ -5,11 +5,12 @@ import sys
 print("numpy version",np.__version__)
 print("pandas version",pd.__version__)
 
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
 import pickle
 import gc
+
+import app.transform as transform
 
 base_dir = os.path.dirname(__file__)
 data_path = os.path.join(base_dir, "data", "train.csv")
@@ -17,7 +18,6 @@ data_path = os.path.join(base_dir, "data", "train.csv")
 try :
     df = pd.read_csv(data_path)
 except:
-    print("Zawartość folderu data/:", os.listdir("data"))
     print("Zawartość folderu data/:", os.listdir("data"))
     print(f"❌ Failed to read data from {data_path}")
     sys.exit(1)
@@ -33,70 +33,38 @@ list_num_columns = ['annual_income','debt_to_income_ratio','credit_score','loan_
 list_cat_columns = ['gender','marital_status','education_level','employment_status',
                      'loan_purpose','grade_subgrade']
 
-def cat_columns_to_category(df, list_cat_columns):
 
-    for col in list_cat_columns:
-        df[col] = df[col].astype('category')
-    
-    return df
+cat_col_path = os.path.join(base_dir,'app', "list_cat_columns.pkl")
+with open(cat_col_path , "wb") as f:
+    pickle.dump(list_cat_columns, f)
 
-df_cat = cat_columns_to_category(df, list_cat_columns)
+num_col_path = os.path.join(base_dir,'app', "list_num_columns.pkl")
+with open(num_col_path , "wb") as f:
+    pickle.dump(list_num_columns, f)
 
-def split_data(df, target_col='defaulted', test_size=0.2, random_state=42):
-        # --- DATA SPLIT: Train and Validation ---
-    X_train_full_data = df.drop([target_col], axis=1)
-    y_train_full_data = df[target_col]
+# Transform categorical columns to 'category' dtype
+df_cat = transform.cat_columns_to_category(df, list_cat_columns)
 
-    X_train_split, X_valid_split, y_train_split, y_valid_split = train_test_split(
-        X_train_full_data, y_train_full_data,
-        test_size=test_size,
-        random_state=random_state,
-        stratify=y_train_full_data
-    )
-    train_indices = X_train_split.index.values
-    valid_indices = X_valid_split.index.values
+# Split data into training and validation sets
+train_indices, valid_indices, X_train_split, X_valid_split, y_train_split, y_valid_split=transform.split_data(df_cat, target_col='loan_paid_back')
 
-    print(f"Total training data size: {len(df)}")
-    print(f"New Train Set size: {len(X_train_split)}")
-    print(f"Validation Set size: {len(X_valid_split)}")
-
-    # Free memory
-    del y_train_full_data
-    gc.collect()
-    return train_indices, valid_indices, X_train_split, X_valid_split, y_train_split, y_valid_split
-
-train_indices, valid_indices, X_train_split, X_valid_split, y_train_split, y_valid_split=split_data(df_cat, target_col='loan_paid_back')
-
-def cat_One_hot_encoding(df,list_cat_columns,list_num_columns,columns_after_train_encoded=None):
-
-    train_cols = columns_after_train_encoded
-
-    df = pd.get_dummies(df,columns = list_cat_columns,drop_first=True)
-    
-    # Find all columns created by one-hot encoding (everything except numeric columns)
-    one_hot_encoded_columns = df.columns.difference(list_num_columns)
-    
-    # Check if one-hot encoded columns contain only 0 or 1 values
-    for col in one_hot_encoded_columns:
-        if not df[col].dropna().apply(lambda x: x in [0, 1]).all():
-            print(f"Non-binary values found in column: {col}")
-            print(df[col].unique())
-
-    # Convert one-hot encoded columns to integer type (0 or 1)
-    df[one_hot_encoded_columns] = df[one_hot_encoded_columns].astype(int)
-    # If training columns are provided, reindex to match them and fill missing columns with 0
-    if not train_cols is None:
-        df = df.reindex(columns=train_cols, fill_value=0)
-    return df
-
-X_train_ohe = cat_One_hot_encoding(X_train_split,list_cat_columns,list_num_columns)
-X_valid_ohe = cat_One_hot_encoding(X_valid_split,list_cat_columns,list_num_columns,X_train_ohe.columns)
+# One-Hot Encoding for categorical variables
+X_train_ohe = transform.cat_One_hot_encoding(X_train_split,list_cat_columns,list_num_columns,train=True)
+X_valid_ohe = transform.cat_One_hot_encoding(X_valid_split,list_cat_columns,list_num_columns,train=False)
 
 X_train_ohe = X_train_ohe.fillna(0)
 X_valid_ohe = X_valid_ohe.fillna(0)
 
 
 X_valid_ohe.head()
+
+# ------------------------------------------------
+# Train Models
+# ------------------------------------------------
+# results_df to log model results
+
+results_df = pd.DataFrame()
+
 
 def train_model(model_type, X_train, y_train, X_valid, y_valid, params=None, results_df=None):
     """
@@ -154,13 +122,10 @@ def train_model(model_type, X_train, y_train, X_valid, y_valid, params=None, res
         results_df = pd.DataFrame([log_entry])
     else:
         results_df = pd.concat([results_df, pd.DataFrame([log_entry])], ignore_index=True)
-
+    
     return model, model.get_params(), results_df
 
-# ------------------------------------------------
-# Train Models
-# ------------------------------------------------
-results_df = pd.DataFrame()
+
 # ------------------------------------------------
 # RandomForestClassifier
 
@@ -176,7 +141,7 @@ results_df = pd.DataFrame()
 # ✅ 3. Missing Values Not handled automatically — you need to impute missing values before training. 
 # Use SimpleImputer or similar preprocessing.
 # ------------------------------------------------
-model_RFC, model_params_RFC, results_df=train_model("random_forest", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=None)
+model_RFC, model_params_RFC, results_df=train_model("random_forest", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=results_df)
 
 
 # ------------------------------------------------
@@ -195,7 +160,7 @@ model_RFC, model_params_RFC, results_df=train_model("random_forest", X_train_ohe
 # but it's good to monitor missing data.
 # ------------------------------------------------
 
-model_XGB, model_params_XGB, results_df=train_model("xgboost", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=None)
+model_XGB, model_params_XGB, results_df=train_model("xgboost", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=results_df)
 
 # ------------------------------------------------
 # LGBMClassifier
@@ -209,7 +174,7 @@ model_XGB, model_params_XGB, results_df=train_model("xgboost", X_train_ohe, y_tr
 
 # ✅ 3. Missing Values Handled internally (np.nan is supported). No manual imputation required, but it's good to monitor missing data.
 # ------------------------------------------------
-model_LGBM, model_params_LGBM, results_df=train_model("lightgbm", X_train_split, y_train_split, X_valid_split, y_valid_split, params=None, results_df=None)
+model_LGBM, model_params_LGBM, results_df=train_model("lightgbm", X_train_split, y_train_split, X_valid_split, y_valid_split, params=None, results_df= results_df)
 
 
 
@@ -318,7 +283,7 @@ def train_catboost_baseline_auc(
         pd.DataFrame([log_entry])
     ], ignore_index=True)
 
-    return model, used_params, df_model, p_test
+    return model, used_params, df_model
 
 # Creating CatBoost Data Pools
 from catboost import CatBoostClassifier, Pool
@@ -327,10 +292,12 @@ X_valid_pool = Pool(X_valid_split, y_valid_split, cat_features=list_cat_columns)
 
 custom_params = {
     'eval_metric': 'AUC',
-    'learning_rate': 0.05
+    'learning_rate': 0.07,
+    'iterations': 5000,
+    'early_stopping_rounds': 200
 }
 
-cat_clf, cat_params, df_model_results, p_test_cat_clf = train_catboost_baseline_auc(
+cat_clf, cat_params, results_df = train_catboost_baseline_auc(
     X_train_pool, X_valid_pool, y_valid_split,
     df_model=results_df,
     model_name="CatBoost_baseline",
@@ -343,3 +310,12 @@ print(results_df)
 best_model_row = results_df.loc[results_df['score'].idxmax()]
 best_model_name = best_model_row['model_name']
 print(f"\nBest Model: {best_model_name} with ROC AUC: {best_model_row['score']}")
+
+# Ścieżka do zapisu
+model_path = os.path.join(os.path.dirname(__file__),"app","model.pkl")
+
+# Zapis modelu
+with open(model_path, "wb") as f:
+    pickle.dump(cat_clf, f)
+
+print(f"💾 Model zapisany do: {model_path}")
