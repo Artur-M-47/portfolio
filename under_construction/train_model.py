@@ -1,7 +1,41 @@
+"""
+📊 train_model
+Python Script: Loan Repayment Prediction Model Training and Evaluation
+
+This Python script is designed to train and evaluate multiple classification models
+on loan data to predict whether a loan will be paid back (loan_paid_back).
+It serves as a benchmark for comparing the performance of different machine learning
+algorithms on the same dataset:
+
+⏹️ Random Forest
+⏹️ XGBoost
+⏹️ LightGBM
+⏹️ CatBoost
+
+Data Preprocessing & Transformations:
+- Each model received input data transformed according to its requirements.
+- Techniques included:
+    • Conversion of categorical features to appropriate types
+    • One-Hot Encoding for tree-based models that require numerical input
+    • Category handling for CatBoost (native categorical support)
+    • Ensuring numerical features were properly scaled or cast to float
+
+Evaluation:
+- Models were trained and validated on the same dataset split.
+- Performance metrics (e.g., accuracy, ROC-AUC) were compared
+  to identify the most effective algorithm for loan repayment prediction.
+
+Usage:
+    python train_model.py
+
+Output:
+    Trained models and evaluation results stored for further analysis.
+"""
 import pandas as pd
 import numpy as np
 import os
 import sys
+import matplotlib.pyplot as plt
 print("numpy version",np.__version__)
 print("pandas version",pd.__version__)
 
@@ -125,81 +159,81 @@ def train_model(model_type, X_train, y_train, X_valid, y_valid, params=None, res
     
     return model, model.get_params(), results_df
 
+'''
+------------------------------------------------
+RandomForestClassifier
 
-# ------------------------------------------------
-# RandomForestClassifier
+🧠 Data Prep Summary
+Random Forest is a tree-based ensemble method that builds multiple decision trees and averages their predictions. 
+Unlike boosting methods, it trains trees independently and is robust to overfitting and noise.
 
-# 🧠 Data Prep Summary
-# Random Forest is a tree-based ensemble method that builds multiple decision trees and averages their predictions. 
-# Unlike boosting methods, it trains trees independently and is robust to overfitting and noise.
+⏹️ 1. Categorical Features Must be encoded — Random Forest does not support categorical variables natively. 
+One-Hot Encoding
 
-# ✅ 1. Categorical Features Must be encoded — Random Forest does not support categorical variables natively. 
-# One-Hot Encoding
+⏹️ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values are fine.
 
-# ✅ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values are fine.
-
-# ✅ 3. Missing Values Not handled automatically — you need to impute missing values before training. 
-# Use SimpleImputer or similar preprocessing.
-# ------------------------------------------------
+⏹️ 3. Missing Values Not handled automatically — you need to impute missing values before training. 
+Use SimpleImputer or similar preprocessing.
+# ------------------------------------------------'''
 model_RFC, model_params_RFC, results_df=train_model("random_forest", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=results_df)
 
+'''
+------------------------------------------------
+XGBoost Classifier
 
-# ------------------------------------------------
-# XGBoost Classifier
+🧠 Data Prep Summary
+XGBoost is a tree-based ensemble method using gradient boosting — unlike single decision trees, 
+it builds many trees sequentially to correct previous errors and improve accuracy.
 
-# 🧠 Data Prep Summary
-# XGBoost is a tree-based ensemble method using gradient boosting — unlike single decision trees, 
-# it builds many trees sequentially to correct previous errors and improve accuracy.
+⏹️ 1. Categorical Features - One-Hot Encoding (OHE) Required for categorical features — 
+XGBoost doesn’t support them natively.
 
-# ✅ 1. Categorical Features - One-Hot Encoding (OHE) Required for categorical features — 
-# XGBoost doesn’t support them natively.
+⏹️ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values work fine.
 
-# ✅ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values work fine.
-
-# ✅ 3. Missing Values Handled internally (np.nan is supported). No manual imputation required, 
-# but it's good to monitor missing data.
-# ------------------------------------------------
+⏹️ 3. Missing Values Handled internally (np.nan is supported). No manual imputation required, 
+but it's good to monitor missing data.
+------------------------------------------------'''
 
 model_XGB, model_params_XGB, results_df=train_model("xgboost", X_train_ohe, y_train_split, X_valid_ohe, y_valid_split, params=None, results_df=results_df)
+'''
+------------------------------------------------
+LGBMClassifier
 
-# ------------------------------------------------
-# LGBMClassifier
+🧠 Data Prep Summary
+LightGBM is a tree-based boosting algorithm optimized for speed and memory efficiency. Unlike traditional decision trees, it builds trees leaf-wise for better accuracy and supports large datasets with high performance.
 
-# 🧠 Data Prep Summary
-# LightGBM is a tree-based boosting algorithm optimized for speed and memory efficiency. Unlike traditional decision trees, it builds trees leaf-wise for better accuracy and supports large datasets with high performance.
+⏹️ 1. Categorical Features Can be passed directly as category dtype — no need for one-hot encoding. LightGBM handles categorical splits natively.
 
-# ✅ 1. Categorical Features Can be passed directly as category dtype — no need for one-hot encoding. LightGBM handles categorical splits natively.
+⏹️ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values work fine.
 
-# ✅ 2. Scaling Not needed — tree models are scale-invariant. Raw numerical values work fine.
-
-# ✅ 3. Missing Values Handled internally (np.nan is supported). No manual imputation required, but it's good to monitor missing data.
-# ------------------------------------------------
+⏹️ 3. Missing Values Handled internally (np.nan is supported). No manual imputation required, but it's good to monitor missing data.
+------------------------------------------------'''
 model_LGBM, model_params_LGBM, results_df=train_model("lightgbm", X_train_split, y_train_split, X_valid_split, y_valid_split, params=None, results_df= results_df)
 
 
+'''
+------------------------------------------------
+CatBoostClassifier
+🧠 Data Prep & Modeling Summary
+CatBoost is a gradient boosting algorithm based on decision trees, designed for high performance and native support for 
+categorical features. Unlike other boosting methods, it handles categorical data internally and requires minimal preprocessing.
 
-#  ------------------------------------------------
-# CatBoostClassifier
-# 🧠 Data Prep & Modeling Summary
-# CatBoost is a gradient boosting algorithm based on decision trees, designed for high performance and native support for 
-# categorical features. Unlike other boosting methods, it handles categorical data internally and requires minimal preprocessing.
+⏹️ 1. Categorical Features - No need for one-hot encoding — CatBoost handles them natively.
 
-# ✅ 1. Categorical Features - No need for one-hot encoding — CatBoost handles them natively.
+⏹️ 2. Scaling Not needed — tree-based models are scale-invariant.
 
-# ✅ 2. Scaling Not needed — tree-based models are scale-invariant.
+⏹️ 3. Missing Values Handled internally (np.nan is supported), but monitoring is recommended.
 
-# ✅ 3. Missing Values Handled internally (np.nan is supported), but monitoring is recommended.
-
-# ⚙️ Base Model Configuration & Imbalance Handling
-# Cost-Sensitive Learning scale_pos_weight was set as the ratio of negative to positive samples to penalize misclassification 
-# of the minority class(positive response), and improve AUC.
-# Acceleration & Evaluation Strategy
-# The parameter task_type='GPU' was enabled to leverage GPU acceleration, significantly reducing training time.
-# Since CatBoost does not support AUC as a loss function, cross-entropy (logloss) was used for training and early stopping.
-# AUC was calculated only after training, on the validation set, to evaluate model performance and guide final selection.
-# Regularization & Control High iterations (e.g. 15000) combined with early_stopping_rounds=200 helped prevent overfitting and 
-# identify the optimal number of trees.
-
+⚙️ Base Model Configuration & Imbalance Handling
+Cost-Sensitive Learning scale_pos_weight was set as the ratio of negative to positive samples to penalize misclassification 
+of the minority class(positive response), and improve AUC.
+Acceleration & Evaluation Strategy
+The parameter task_type='GPU' was enabled to leverage GPU acceleration, significantly reducing training time.
+Since CatBoost does not support AUC as a loss function, cross-entropy (logloss) was used for training and early stopping.
+AUC was calculated only after training, on the validation set, to evaluate model performance and guide final selection.
+Regularization & Control High iterations (e.g. 15000) combined with early_stopping_rounds=200 helped prevent overfitting and 
+identify the optimal number of trees.
+------------------------------------------------'''
 def train_catboost_baseline_auc(
     X_train_pool,
     X_valid_pool,
@@ -319,3 +353,61 @@ with open(model_path, "wb") as f:
     pickle.dump(cat_clf, f)
 
 print(f"💾 Model zapisany do: {model_path}")
+
+
+def plot_feature_importance(model, feature_dataframe, top_n=10, plot_title="Model Feature Importance"):
+    """
+    Retrieves, sorts, and visualizes the feature importance from a trained CatBoost model.
+
+    Args:
+        model (CatBoostClassifier): The trained CatBoost model object.
+        feature_dataframe (pd.DataFrame): The DataFrame containing the features used for training.
+        top_n (int): The number of top features to display.
+        plot_title (str): The title for the resulting plot.
+
+    Returns:
+        pd.DataFrame: A DataFrame of sorted feature importances.
+    """
+    
+    if not hasattr(model, 'get_feature_importance'):
+        print("Error: The provided object does not have a 'get_feature_importance' method.")
+        return pd.DataFrame()
+
+    try:
+        # 1. Get Feature Importances
+        feature_importances = model.get_feature_importance()
+        feature_names = feature_dataframe.columns.tolist()
+
+        # 2. Create and Sort DataFrame
+        importance_df = pd.DataFrame({
+            'Feature': feature_names,
+            'Importance': feature_importances
+        })
+        importance_df = importance_df.sort_values(by='Importance', ascending=False)
+        
+        # Select top N features
+        top_features = importance_df.head(top_n)
+
+        print(f"\n--- TOP {top_n} {plot_title} ---\n")
+        print(top_features)
+
+        # 3. Visualization
+        plt.figure(figsize=(10, top_n / 2)) # Dynamic height based on N
+        plt.barh(top_features['Feature'], top_features['Importance'], color='teal')
+        plt.xlabel("Feature Importance Value")
+        plt.ylabel("Feature")
+        plt.title(plot_title)
+        plt.gca().invert_yaxis() # Invert y-axis for better readability
+        plt.show() # 
+
+        return importance_df
+
+    except Exception as e:
+        print(f"An error occurred during feature importance processing: {e}")
+        return pd.DataFrame()
+    
+loan_importance_df = plot_feature_importance(
+    model=cat_clf,
+    feature_dataframe=X_train_split,
+    plot_title="Loan Risk Estamation Feature Importance"
+)

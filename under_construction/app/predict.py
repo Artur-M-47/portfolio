@@ -1,3 +1,12 @@
+"""
+📊 Prediction Module
+
+This module loads the trained CatBoost model and provides a function
+to predict loan default risk. It takes a CatBoost Pool object as input,
+computes the probability of loan repayment (class 1), and returns
+a simple risk classification ("low" or "high") along with the probability.
+"""
+
 import pickle
 import numpy as np
 import os
@@ -14,11 +23,8 @@ def predict_default_risk(X_test_pool):#application: LoanApplication
     """
     Transforms input data and returns default risk prediction.
     """
-    #employment = 1 if application.employment_status.lower() == "employed" else 0
-    #features = np.array([[application.income, application.loan_amount, employment]])
-    # features = np.array(df) #application
     probability = model.predict_proba(X_test_pool)[0][1]
-    risk = "high" if probability > 0.5 else "low"
+    risk = "low" if probability < 0.5 else "high"
 
     return {
         "default_risk": risk,

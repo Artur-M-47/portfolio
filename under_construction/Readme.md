@@ -1,44 +1,68 @@
 
-## 💰 Loan
-🧠 Loan Default Risk API – AI-Ready FastAPI App with CatBoost
-This project demonstrates a production-grade FastAPI application for predicting loan default risk using a trained CatBoost model. It was built in response to a real-world AI engineering opportunity involving agentic architecture, RAG, and end-to-end deployment.
+💰 Loan Default Risk API – AI-Ready FastAPI App with CatBoost
+🚀 Introduction
+This project showcases a production-grade FastAPI application designed to predict loan default risk using a trained CatBoost model. It is architected for scalability, modularity, and future integration with modern AI frameworks (e.g., LangChain, RAG, Vector DB).The application exposes a simple /predict endpoint that accepts loan application data and returns the probability of repayment (or default risk) along with a simple risk classification.Project Goal: Predict the probability that a borrower will pay back their loan.Evaluation Metric: Area Under the ROC Curve (ROC AUC).Achieved Accuracy (ROC AUC): 0.922
 
-Your Goal: Predict the probability that a borrower will pay back their loan.
-Submissions are evaluated on area under the ROC curve between the predicted probability and the observed target.
+🏗️ Architecture and Tech Stack
 
-Accuracy: 0.98481  
-Tech stack:  
-
-### Python, Pandas, NumPy, CatBoost, Keras, Scikit-learn 
-
-Highlights:
-
-    🚀 Key Features
-    FastAPI REST API with /predict endpoint
-
-    Pydantic schema for structured JSON input
-
-    CatBoost model integration with proper handling of categorical features via Pool
-
-    Modular architecture with separate files for schema, transformation, and prediction logic
-
-    Ready for CI/CD and containerization
-
-    Designed for extension into LangChain, RAG, or Vector DB pipelines
-
-    🧩 Tech Stack
-    Layer	            Tools Used
-    API Framework	    FastAPI
-    Model Serving	    CatBoostClassifier
-    Data Validation	    Pydantic
-    Data Transformation	pandas, pickle
-    Deployment Ready	Modular Python, Docker-friendly
-    Future Extensions	LangChain, LangGraph, FAISS-ready
+The project employs a modular structure to facilitate testing, maintenance, and future expansion.
+| Layer | Tools Used | Description |
+| API Framework | FastAPI | A fast, asynchronous framework for serving the API. |
+| Model Serving | CatBoostClassifier | Gradient Boosting algorithm with native support for categorical features. |
+| Data Validation | Pydantic | Defines schemas for structured JSON input and output. |
+| Data Transformation | pandas, pickle | Data preprocessing and serialization of model artifacts. |
+| Environment | Python 3.10, conda | Management of dependencies and the virtual environment. | 
+| Deployment Ready | Modular Python, Docker-friendly | Designed for easy CI/CD and containerization. |
+| Future Extensions | LangChain, LangGraph, FAISS | Ready for extension into agentic architecture and vector search pipelines. |
 
 
+## 🧪 Environment Setup
+To recreate the environment:
+
+```bash
+conda env create -f loan_env.yml
+conda activate loan_env
+```
+
+## 🚀 How to Run
+The following instructions assume you are using Anaconda/Miniconda.
+
+1. Clone the repository:
+
+```bash
+git clone [https://github.com/Artur-M-47/portfolio/tree/main/kaggle_competitions/Predicting_Loan_Payback]
+```
+2. Model Training (Optional)
+If you need to retrain the model or benchmark the algorithms:
+
+```bash 
+# Run the training script.
+# This will generate: model.pkl, list_cat_columns.pkl, and list_num_columns.pkl
+python train_model.py
+```
+3. Running the API Server
+Navigate to the project's root directory and start the FastAPI server. The 
+```bash
+--reload
+``` 
+flag enables automatic server restart upon code changes.
+```bash
+# Start the Uvicorn server
+uvicorn main:app --reload
+``` 
+The server will be available at: http://127.0.0.1:8000/
+Health Check Verification:Visit http://127.0.0.1:8000/. You should see:
+JSON{"message":"Loan Default Risk API is running."}
+
+Interactive Documentation:Navigate to **http://127.0.0.1:8000/docs#/ ** to access the Swagger UI and interactively test the endpoints.
+
+🧪 The /predict Endpoint
+
+This endpoint takes loan application features and returns a default risk prediction.
 POST /predict
 
-{
+Example Request Body (JSON):
+JSON{
   "gender": "Male",
   "marital_status": "Single",
   "education_level": "Bachelor",
@@ -52,54 +76,56 @@ POST /predict
   "interest_rate": 13.5
 }
 
-✅ Response
-{
-  "default_risk": "high",
+Example Response:
+JSON{
+  "default_risk": "low",
   "probability": 0.92
 }
 
+⏹️ probability: The predicted probability that the loan will be paid back (loan_paid_back=1).
+⏹️ default_risk: A simple risk classification (e.g., "low" or "high") based on a predetermined probability threshold.
 
-### 📁 kaggle_competitions/Predicting Loan Payback/  
-├── app/                          # główny folder aplikacji  
-│   ├── __init__.py              # pusty plik inicjalizujący pakiet  
-│   ├── model.pkl
-│   ├── list_cat_columns.pkl
-│   ├── list_num_columns.pkl
-│   ├── schemas.py
-│   ├── transform.py
-│   └── predict.py
-│  
-├── data/                        # folder z danymi treningowymi  
-│   └── loan_data.csv            # pobrany z Kaggle lub innego źródła  
-│  
-├── train_model.py              # skrypt do trenowania i zapisu modelu  
-├── requirements.txt            # lista bibliotek  
-├── README.md                   # dokumentacja projektu  
-└── .vscode/                    # konfiguracja VS Code (opcjonalnie)  
-    └── settings.json           # ustawienie interpretera Conda  
+📊 Simulated API Testing
+To validate the API's behavior with multiple records (e.g., from a test.csv file), use the provided test client:
+1. Ensure the API is Running (see Step 3 above).
+2. Run the test client in a separate terminal:
 
+```bash
+# Ensure the test.csv file exists in ../data/
+python Simulated_Api_from_test.py
+```
+This script will read test data, convert it to JSON, send each record as a POST request to the server, and print the API's response to the console.
+🧠 Model Training Summary (train_model.py)
+The training script compares four machine learning algorithms, each processed according to its input requirements:
+⏹️ Random Forest
+⏹️ XGBoost
+⏹️ LightGBM
+⏹️ CatBoost
+CatBoost was selected as the final production model due to its superior performance (ROC AUC: 0.922) and native handling of categorical features, which simplifies the overall prediction pipeline.
 
-    Muszę wejsc w anaconda prompt po aktywowaniu środowiska loan_env do katalogu z projektem chwilowo under_construction  
-    wpisuję komendę uruchamiającą serwer   
-    uvicorn main:app --reload  
-    wchodzisz na stronę w wyszukiwarce http://127.0.0.1:8000/docs#/     FAST API  
-
-    w trakcie pracy nad kodem należy "ctrl + s" na serwerze dzięki dzięki --reload zmiany się odrazu aktualizują  
-
-🛠️ How to Run Locally
-bash
-# Create virtual environment
-conda create -n loan_env python=3.10
-conda activate loan_env
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the API
-uvicorn main:app --reload
-📌 Notes
-This project is designed to be extended with LangChain agents, RAG pipelines, and vector search.
-
-All model artifacts are preloaded and versioned for reproducibility.
-
-Built as a response to a Randstad Digital AI Engineering opportunity.
+📂 Project Structure
+kaggle_competitions/Predicting_Loan_Payback/
+├── app/
+│   ├── __init__.py           
+│   ├── model.pkl             
+│   ├── list_cat_columns.pkl  
+│   ├── list_num_columns.pkl  
+│   ├── schemas.py            
+│   ├── transform.py          
+│   └── predict.py            
+│
+├── data/
+│   └── loan_data.csv         
+│   └── test.csv              
+├── images/
+│   └── FastAPI_Enter_Data.PNG
+│   └── FastAPI_Response.PNG
+│   └── Feature Importance.PNG
+│   └── model_scores.PNG
+│   └── Tests.PNG
+├── train_model.py            
+├── main.py                   
+├── loan_env.yml          
+├── README.md                 
+└── tests/
+    └── Simulated_Api_from_test.py # Script for simulating API POST requests
