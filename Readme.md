@@ -8,7 +8,7 @@ The project demonstrates:
 ⏹️ end-to-end ML application development,  
 ⏹️ including model training,  
 ⏹️ data transformation,  
-⏹️ API serving, 
+⏹️ API serving,  
 ⏹️ simulated testing 
 
 Prediction Performance: ROC AUC = 0.922  
