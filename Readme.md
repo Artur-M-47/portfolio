@@ -1,7 +1,39 @@
 # 🧠 Portfolio Overview
-This portfolio showcases two applied machine learning projects focused on classification and anomaly detection, combining regulatory awareness with technical precision.
+This portfolio showcases applied machine learning and AI application projects, ranging from competition-grade classification pipelines to production-ready API deployments.  
+
 ---
-## 1. 🍄 Mushroom Edibility Classification (Kaggle: PS S4E8)
+## 1. 💰 Loan Default Risk API (FastAPI + CatBoost)
+A production-grade FastAPI application designed to predict loan default risk using a trained CatBoost model. 
+The project demonstrates:  
+⏹️ end-to-end ML application development,  
+⏹️ including model training,  
+⏹️ data transformation,  
+⏹️ API serving, 
+⏹️ simulated testing 
+
+Prediction Performance: ROC AUC = 0.922  
+
+Tech Stack:  
+### Python, FastAPI, CatBoost, Pydantic, Pandas, Docker-ready
+
+Highlights:  
+- Built and deployed a **FastAPI REST API** with `/predict` endpoint.  
+- Integrated **CatBoostClassifier** for loan default risk estimation.  
+- Used **Pydantic schemas** for JSON validation and structured input/output.  
+- Modular design with separate layers for schema, transformation, and prediction.  
+- Simulated API testing with batch requests from `test.csv`.  
+- Deployment-ready structure (conda environment, Docker-friendly).  
+
+📊 Example Response:
+```json
+{
+  "default_risk": "low",
+  "probability": 0.92
+}
+```
+### 📁 kaggle_competitions/Predicting_Loan_Payback/
+---
+## 2. 🍄 Mushroom Edibility Classification (Kaggle: PS S4E8)
 A competition-grade pipeline for classifying mushrooms as edible or poisonous using 22 categorical features. The project compares Logistic Regression, a Tuned CatBoost classifier, and a Deep Neural Network (DNN), achieving:
 
 Accuracy: 0.98481  
@@ -21,7 +53,7 @@ Highlights:
 
 ### 📁 kaggle_competitions/Binary_Prediction_of_Poisonous_Mushrooms/
 
-## 2. 🚗 Insurance Marketing Campaigns with Predictive Modeling (Kaggle: PS S4E7)
+## 3. 🚗 Insurance Marketing Campaigns with Predictive Modeling (Kaggle: PS S4E7)
 A binary classification challenge focused on predicting which clients will respond positively to an automobile insurance offer. The project utilized advanced ensemble methods and robust validation techniques to maximize prediction stability.  
 
 ROC AUC Score: 0.89515  
@@ -41,7 +73,7 @@ Highlights:
 
 ### 📁 Insurance_Marketing_Campaigns/
 
-## 3. 📡 Telecom KPI Anomaly Detection (Isolation Forest)
+## 4. 📡 Telecom KPI Anomaly Detection (Isolation Forest)
 An unsupervised anomaly detection pipeline for synthetic telecom KPI time series (RTT and SR). The project includes data fabrication, contamination tuning, and visual validation.
 
 Detected anomalies:  
