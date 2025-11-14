@@ -1,19 +1,20 @@
 
-💰 Loan Default Risk API – AI-Ready FastAPI App with CatBoost
-🚀 Introduction
+# 💰 Loan Default Risk API – AI-Ready FastAPI App with CatBoost
+## 🚀 Introduction
 This project showcases a production-grade FastAPI application designed to predict loan default risk using a trained CatBoost model. It is architected for scalability, modularity, and future integration with modern AI frameworks (e.g., LangChain, RAG, Vector DB).The application exposes a simple /predict endpoint that accepts loan application data and returns the probability of repayment (or default risk) along with a simple risk classification.Project Goal: Predict the probability that a borrower will pay back their loan.Evaluation Metric: Area Under the ROC Curve (ROC AUC).Achieved Accuracy (ROC AUC): 0.922
 
-🏗️ Architecture and Tech Stack
+## 🏗️ Architecture and Tech Stack
 
-The project employs a modular structure to facilitate testing, maintenance, and future expansion.
-| Layer | Tools Used | Description |
-| API Framework | FastAPI | A fast, asynchronous framework for serving the API. |
-| Model Serving | CatBoostClassifier | Gradient Boosting algorithm with native support for categorical features. |
-| Data Validation | Pydantic | Defines schemas for structured JSON input and output. |
-| Data Transformation | pandas, pickle | Data preprocessing and serialization of model artifacts. |
-| Environment | Python 3.10, conda | Management of dependencies and the virtual environment. | 
-| Deployment Ready | Modular Python, Docker-friendly | Designed for easy CI/CD and containerization. |
-| Future Extensions | LangChain, LangGraph, FAISS | Ready for extension into agentic architecture and vector search pipelines. |
+The project employs a modular structure to facilitate testing, maintenance, and future expansion.  
+| Layer            | Tools Used         | Description                                                                 |
+| ---------------- | ------------------ | --------------------------------------------------------------------------- |
+| API Framework    | FastAPI            | A fast, asynchronous framework for serving the API.                         |
+| Model Serving    | CatBoostClassifier | Gradient Boosting algorithm with native support for categorical features.   |
+| Data Validation  | Pydantic           | Defines schemas for structured JSON input and output.                       |
+| Data Transformation | pandas, pickle  | Data preprocessing and serialization of model artifacts.                    |
+| Environment      | Python 3.10, conda | Management of dependencies and the virtual environment.                     |
+| Deployment Ready | Modular Python, Docker-friendly | Designed for easy CI/CD and containerization.          |
+| Future Extensions| LangChain, LangGraph, FAISS | Ready for extension into agentic architecture and vector search pipelines. |
 
 
 ## 🧪 Environment Setup
@@ -50,19 +51,24 @@ flag enables automatic server restart upon code changes.
 # Start the Uvicorn server
 uvicorn main:app --reload
 ``` 
-The server will be available at: http://127.0.0.1:8000/
-Health Check Verification:Visit http://127.0.0.1:8000/. You should see:
-JSON{"message":"Loan Default Risk API is running."}
+The server will be available at: http://127.0.0.1:8000/  
+Health Check Verification:Visit http://127.0.0.1:8000/. You should see:  
+```json
+{
+"message":"Loan Default Risk API is running."
+}```  
 
-Interactive Documentation:Navigate to **http://127.0.0.1:8000/docs#/ ** to access the Swagger UI and interactively test the endpoints.
+Interactive Documentation:Navigate to **http://127.0.0.1:8000/docs#/** to access the Swagger UI and interactively test the endpoints.
 
 🧪 The /predict Endpoint
 
 This endpoint takes loan application features and returns a default risk prediction.
 POST /predict
 
-Example Request Body (JSON):
-JSON{
+### Example Request Body (JSON)
+
+```json
+{
   "gender": "Male",
   "marital_status": "Single",
   "education_level": "Bachelor",
@@ -74,15 +80,18 @@ JSON{
   "credit_score": 720,
   "loan_amount": 12000,
   "interest_rate": 13.5
-}
+}```
 
-Example Response:
-JSON{
+### Example Response (JSON)
+
+```json
+{
   "default_risk": "low",
   "probability": 0.92
 }
+```
 
-⏹️ probability: The predicted probability that the loan will be paid back (loan_paid_back=1).
+⏹️ probability: The predicted probability that the loan will be paid back (loan_paid_back=1).  
 ⏹️ default_risk: A simple risk classification (e.g., "low" or "high") based on a predetermined probability threshold.
 
 📊 Simulated API Testing
@@ -95,16 +104,16 @@ To validate the API's behavior with multiple records (e.g., from a test.csv file
 python Simulated_Api_from_test.py
 ```
 This script will read test data, convert it to JSON, send each record as a POST request to the server, and print the API's response to the console.
-🧠 Model Training Summary (train_model.py)
+## 🧠 Model Training Summary (train_model.py)
 The training script compares four machine learning algorithms, each processed according to its input requirements:
-⏹️ Random Forest
-⏹️ XGBoost
-⏹️ LightGBM
-⏹️ CatBoost
+⏹️ Random Forest  
+⏹️ XGBoost  
+⏹️ LightGBM  
+⏹️ CatBoost  
 CatBoost was selected as the final production model due to its superior performance (ROC AUC: 0.922) and native handling of categorical features, which simplifies the overall prediction pipeline.
 
-📂 Project Structure
-kaggle_competitions/Predicting_Loan_Payback/
+## 📂 Project Structure
+kaggle_competitions/Predicting_Loan_Payback/  
 ├── app/
 │   ├── __init__.py           
 │   ├── model.pkl             
@@ -114,18 +123,18 @@ kaggle_competitions/Predicting_Loan_Payback/
 │   ├── transform.py          
 │   └── predict.py            
 │
-├── data/
+├── data/  
 │   └── loan_data.csv         
 │   └── test.csv              
 ├── images/
-│   └── FastAPI_Enter_Data.PNG
-│   └── FastAPI_Response.PNG
-│   └── Feature Importance.PNG
-│   └── model_scores.PNG
-│   └── Tests.PNG
+│   └── FastAPI_Enter_Data.PNG  
+│   └── FastAPI_Response.PNG  
+│   └── Feature Importance.PNG  
+│   └── model_scores.PNG  
+│   └── Tests.PNG  
 ├── train_model.py            
 ├── main.py                   
 ├── loan_env.yml          
 ├── README.md                 
-└── tests/
+└── tests/  
     └── Simulated_Api_from_test.py # Script for simulating API POST requests
