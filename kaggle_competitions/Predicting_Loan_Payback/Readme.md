@@ -127,12 +127,13 @@ kaggle_competitions/Predicting_Loan_Payback/
 │   ├── model.pkl
 │   ├── list_cat_columns.pkl
 │   ├── list_num_columns.pkl
+│   ├── train_columns.pkl
 │   ├── schemas.py
 │   ├── transform.py
 │   └── predict.py
 │
 ├── data/
-│   ├── loan_data.csv
+│   ├── train.csv
 │   └── test.csv
 │
 ├── images/
@@ -141,6 +142,11 @@ kaggle_competitions/Predicting_Loan_Payback/
 │   ├── Feature Importance.PNG
 │   ├── model_scores.PNG
 │   └── Tests.PNG
+|
+├── notebooks/              
+│   └── 1_experiments/
+│       ├── Experimental_Predicting_Loan_Payback.ipynb
+│       └── exp_train_columns.pkl
 │
 ├── train_model.py
 ├── main.py

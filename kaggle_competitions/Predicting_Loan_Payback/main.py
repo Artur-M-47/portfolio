@@ -26,19 +26,7 @@ with open(num_col_path, "rb") as f:
 print("✅ list_num_columns:", list_num_columns)
 
 if __name__ == "__main__":
-#      annual_income         593994 non-null  float64
-#  1   debt_to_income_ratio  593994 non-null  float64
-#  2   credit_score          593994 non-null  int64
-#  3   loan_amount           593994 non-null  float64
-#  4   interest_rate         593994 non-null  float64
-#  5   gender                593994 non-null  object
-#  6   marital_status        593994 non-null  object
-#  7   education_level       593994 non-null  object
-#  8   employment_status     593994 non-null  object
-#  9   loan_purpose          593994 non-null  object
-#  10  grade_subgrade        593994 non-null  object
-#  11  loan_paid_back        593994 non-null  float64
-
+    print("🚀 Starting test prediction...")
     sample = {
         "gender": "Male",
         "marital_status": "Single",
