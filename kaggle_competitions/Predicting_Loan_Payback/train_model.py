@@ -398,6 +398,12 @@ def plot_feature_importance(model, feature_dataframe, top_n=10, plot_title="Mode
         plt.ylabel("Feature")
         plt.title(plot_title)
         plt.gca().invert_yaxis() # Invert y-axis for better readability
+        
+        # 💾 Save the plot
+        base_dir = os.path.dirname(__file__)
+        image_path = os.path.join(base_dir, "images", "Feature_Importance.png")
+        plt.savefig(image_path, bbox_inches='tight')
+        
         plt.show() # 
 
         return importance_df
