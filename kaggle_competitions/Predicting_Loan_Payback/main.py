@@ -43,7 +43,9 @@ if __name__ == "__main__":
 
     application = LoanApplication(**sample)
     input_df = pd.DataFrame([application.dict()])
-
+    # --- Feature Engineering ---
+    input_df["calc_ratio"] = input_df["loan_amount"] / input_df["annual_income"]
+    
     print("🔄 Transform categorical columns")
     df_cat = cat_columns_to_category(input_df, list_cat_columns)
     print("✅ Transformed DataFrame:\n", df_cat)
@@ -72,7 +74,8 @@ def read_root():
 def predict(application: LoanApplication):
 
     input_df = pd.DataFrame([application.dict()])
-
+    input_df["calc_ratio"] = input_df["loan_amount"] / input_df["annual_income"]
+    
     df_cat = cat_columns_to_category(input_df, list_cat_columns)
     
     X_test_pool  = Pool(df_cat, cat_features=list_cat_columns)

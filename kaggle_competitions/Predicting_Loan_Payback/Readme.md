@@ -4,7 +4,36 @@
 ## 🚀 Introduction
 This project showcases a production-grade FastAPI application designed to predict loan default risk using a trained CatBoost model. It is architected for scalability, modularity, and future integration with modern AI frameworks (e.g., LangChain, RAG, Vector DB).The application exposes a simple /predict endpoint that accepts loan application data and returns the probability of repayment (or default risk) along with a simple risk classification.Project Goal: Predict the probability that a borrower will pay back their loan.Evaluation Metric: Area Under the ROC Curve (ROC AUC).
 
-Achieved Accuracy (ROC AUC): 0.922
+Achieved Accuracy (ROC AUC): 0.923
+
+🧠 Data Science Workflow & Modeling
+The model selection process was comprehensive, focusing on achieving superior predictive power and stability:
+
+1. Experimental Phase & Benchmarking
+The project began with extensive Jupyter Notebook experiments (notebooks/). This phase covered:
+
+Exploratory Data Analysis (EDA): Deep dive into feature distributions and correlations.
+
+Feature Engineering: Creation of new, highly predictive features.
+
+Model Benchmarking: Comparison of four robust classification algorithms:  
+  ⏹️ Random Forest  
+  ⏹️ XGBoost  
+  ⏹️ LightGBM  
+  ⏹️ CatBoost  
+
+2. Model Selection and Advanced Tuning
+Selection: CatBoost was chosen due to its superior baseline performance and native handling of categorical features, which simplifies the production pipeline.
+
+Hyperparameter Optimization: The selected CatBoost model underwent a dedicated tuning process to find optimal parameters.
+
+Quality Assessment (K-Fold Cross-Validation): The final model's stability and generalization capability were rigorously verified using **K-Fold Cross-Validation** (Experiment 2 of 3 was selected as the final approach). This robust evaluation ensures the reported ROC AUC of 0.923 is reliable.
+![model_scores](images/model_scores.png)
+![Feature_Importance](images/Feature_Importance.png)
+
+3. Production Deployment
+The optimized CatBoost model was serialized and integrated into the FastAPI service, ready for real-time predictions.
+
 
 ## 🏗️ Architecture and Tech Stack
 
@@ -20,6 +49,48 @@ The project employs a modular structure to facilitate testing, maintenance, and 
 | Future Extensions| LangChain, LangGraph, FAISS | Ready for extension into agentic architecture and vector search pipelines. |
 
 
+## 📂 Project Structure
+```text
+kaggle_competitions/Predicting_Loan_Payback/
+├── app/  
+│   ├── __init__.py
+│   ├── model.pkl
+│   ├── list_cat_columns.pkl
+│   ├── list_num_columns.pkl
+│   ├── train_columns.pkl
+│   ├── schemas.py
+│   ├── transform.py
+│   └── predict.py
+│
+├── data/
+│   ├── train.csv
+│   └── test.csv
+│
+├── images/
+│   ├── FastAPI_Enter_Data.PNG
+│   ├── FastAPI_Response.PNG
+│   ├── Feature Importance.PNG
+│   ├── model_scores.PNG
+│   └── Tests.PNG
+│
+├── notebooks/              
+│   ├── 1_experiments/
+│   │   ├── Experimental_Predicting_Loan_Payback.ipynb
+│   │   └── exp_train_columns.pkl
+│   ├── 2_experiments/
+│   │   ├── Experimental_Predicting_Loan_Payback.ipynb
+│   │   └── exp_train_columns.pkl
+│   └── 3_experiments/
+│       ├── Experimental_Predicting_Loan_Payback.ipynb
+│       └── exp_train_columns.pkl
+│
+├── train_model.py
+├── main.py
+├── loan_env.yml
+├── README.md
+└── tests/
+    └── Simulated_Api_from_test.py   # Script for simulating API POST requests
+```
 ## 🧪 Environment Setup
 To recreate the environment:
 
@@ -110,48 +181,3 @@ python Simulated_Api_from_test.py
 ```
 This script will read test data, convert it to JSON, send each record as a POST request to the server, and print the API's response to the console.
 ![Tests](images/Tests.png)
-## 🧠 Model Training Summary (train_model.py)
-The training script compares four machine learning algorithms, each processed according to its input requirements:  
-⏹️ Random Forest  
-⏹️ XGBoost  
-⏹️ LightGBM  
-⏹️ CatBoost  
-CatBoost was selected as the final production model due to its superior performance (ROC AUC: 0.922) and native handling of categorical features, which simplifies the overall prediction pipeline.
-![model_scores](images/model_scores.png)
-![Feature_Importance](images/Feature_Importance.png)
-## 📂 Project Structure
-```text
-kaggle_competitions/Predicting_Loan_Payback/
-├── app/  
-│   ├── __init__.py
-│   ├── model.pkl
-│   ├── list_cat_columns.pkl
-│   ├── list_num_columns.pkl
-│   ├── train_columns.pkl
-│   ├── schemas.py
-│   ├── transform.py
-│   └── predict.py
-│
-├── data/
-│   ├── train.csv
-│   └── test.csv
-│
-├── images/
-│   ├── FastAPI_Enter_Data.PNG
-│   ├── FastAPI_Response.PNG
-│   ├── Feature Importance.PNG
-│   ├── model_scores.PNG
-│   └── Tests.PNG
-|
-├── notebooks/              
-│   └── 1_experiments/
-│       ├── Experimental_Predicting_Loan_Payback.ipynb
-│       └── exp_train_columns.pkl
-│
-├── train_model.py
-├── main.py
-├── loan_env.yml
-├── README.md
-└── tests/
-    └── Simulated_Api_from_test.py   # Script for simulating API POST requests
-```
