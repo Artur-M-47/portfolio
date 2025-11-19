@@ -27,9 +27,10 @@ Selection: CatBoost was chosen due to its superior baseline performance and nati
 
 Hyperparameter Optimization: The selected CatBoost model underwent a dedicated tuning process to find optimal parameters.
 
-Quality Assessment (K-Fold Cross-Validation): The final model's stability and generalization capability were rigorously verified using **K-Fold Cross-Validation** (Experiment 2 of 3 was selected as the final approach). This robust evaluation ensures the reported ROC AUC of 0.923 is reliable.
-![model_scores](images/model_scores.png)
-![Feature_Importance](images/Feature_Importance.png)
+Quality Assessment (K-Fold Cross-Validation): The final model's stability and generalization capability were rigorously verified using **K-Fold Cross-Validation** (Experiment 2 of 3 was selected as the final approach). This robust evaluation ensures the reported ROC AUC of 0.923 is reliable.  
+
+![model_scores](images/model_scores.png)  
+![Feature_Importance](images/Feature_Importance.png)  
 
 3. Production Deployment
 The optimized CatBoost model was serialized and integrated into the FastAPI service, ready for real-time predictions.
