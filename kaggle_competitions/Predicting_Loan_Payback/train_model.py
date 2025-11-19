@@ -149,6 +149,71 @@ except Exception as e:
     print(f"❌ Error saving model to file: {e}")
     sys.exit(1)
 
+def plot_feature_importance(model, feature_dataframe, top_n=10, plot_title="Model Feature Importance"):
+    import matplotlib.pyplot as plt
+    """
+    Retrieves, sorts, and visualizes the feature importance from a trained CatBoost model.
+
+    Args:
+        model (CatBoostClassifier): The trained CatBoost model object.
+        feature_dataframe (pd.DataFrame): The DataFrame containing the features used for training.
+        top_n (int): The number of top features to display.
+        plot_title (str): The title for the resulting plot.
+
+    Returns:
+        pd.DataFrame: A DataFrame of sorted feature importances.
+    """
+    
+    if not hasattr(model, 'get_feature_importance'):
+        print("Error: The provided object does not have a 'get_feature_importance' method.")
+        return pd.DataFrame()
+
+    try:
+        # 1. Get Feature Importances
+        feature_importances = model.get_feature_importance()
+        feature_names = feature_dataframe.columns.tolist()
+
+        # 2. Create and Sort DataFrame
+        importance_df = pd.DataFrame({
+            'Feature': feature_names,
+            'Importance': feature_importances
+        })
+        importance_df = importance_df.sort_values(by='Importance', ascending=False)
+        
+        # Select top N features
+        top_features = importance_df.head(top_n)
+
+        print(f"\n--- TOP {top_n} {plot_title} ---\n")
+        print(top_features)
+
+        # 3. Visualization
+        plt.figure(figsize=(10, top_n / 2)) # Dynamic height based on N
+        plt.barh(top_features['Feature'], top_features['Importance'], color='teal')
+        plt.xlabel("Feature Importance Value")
+        plt.ylabel("Feature")
+        plt.title(plot_title)
+        plt.gca().invert_yaxis() # Invert y-axis for better readability
+        
+        # 💾 Save the plot
+        base_dir = os.path.dirname(__file__)
+        image_path = os.path.join(base_dir, "images", "Feature_Importance.png")
+        plt.savefig(image_path, bbox_inches='tight')
+        
+        plt.show() # 
+
+        return importance_df
+
+    except Exception as e:
+        print(f"An error occurred during feature importance processing: {e}")
+        return pd.DataFrame()
+    
+
+loan_importance_df = plot_feature_importance(
+    model=final_cat_model,
+    feature_dataframe=X_train_split,
+    plot_title="Loan Risk Estamation Feature Importance"
+)
+
 # --- Cleanup ---
 del df, df_cat, X_train_split, X_valid_split, y_train_split, y_valid_split, X_train_pool, X_valid_pool
 gc.collect()
