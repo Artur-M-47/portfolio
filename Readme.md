@@ -1,6 +1,28 @@
 # 🧠 Portfolio Overview
 This portfolio showcases applied machine learning and AI application projects, ranging from competition-grade classification pipelines to production-ready API deployments.  
+It also includes **business analytics and automation case studies**, demonstrating end-to-end data workflows and Power BI dashboards for real-world processes.  
 
+---
+## 1. 📊 Business Analytics & Automatisations (Power BI + Excel + Word + PDF)  
+An end-to-end business automation project integrating document workflows, financial tracking, and interactive dashboards.  
+The project demonstrates:  
+⏹️ payroll extraction from PDFs,  
+⏹️ cost aggregation from Excel,  
+⏹️ automated contract generation (JSON + PDF),  
+⏹️ dynamic Word templates with mail merge,  
+⏹️ Power BI dashboards for contracts, rents, deposits, utilities, and payments,  
+⏹️ CSV revenue tracking and bank statement reconciliation,  
+⏹️ automated invoice proposals with alerts for unpaid invoices.  
+
+Tech Stack:  
+### Power BI, Python, Excel, Word, PDF Automation  
+
+Highlights:  
+- Complete **data flow architecture** illustrated via mind map.  
+- Interactive **Power BI dashboard** with multiple pages (Costs, Revenues, Tenant Agreements, Invoice Management, Lump-Sum Settlement).  
+- Demonstrates **business impact**: time efficiency, financial transparency, and scalable automation.  
+  
+### 📁 Business_Analytics_&_Automatisations/property_management_dashboard/  
 ---
 ## 1. 💰 Loan Default Risk API (FastAPI + CatBoost)
 A production-grade FastAPI application designed to predict loan default risk using a trained CatBoost model. 
